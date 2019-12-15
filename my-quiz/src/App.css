@@ -1,0 +1,13 @@
+.category-pick{
+  text-align: center;
+}
+
+.category-pick > button{
+  font-size: 20px;
+  width: 200px;
+  height: 100px;
+}
+
+h1, h2, h3 {
+	color: white;
+}
