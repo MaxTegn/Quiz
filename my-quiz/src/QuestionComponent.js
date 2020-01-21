@@ -1,5 +1,6 @@
 import React from 'react';
 import CategoryPickComponent from './CategoryPickComponent'
+import EndScreenComponent from './EndScreenComponent'
 
 class QuestionComponent extends React.Component {
     constructor(props) {
@@ -17,15 +18,25 @@ class QuestionComponent extends React.Component {
         }
         this.handleClick = this.handleClick.bind(this);
         this.startGame = this.startGame.bind(this);
+        this._isMounted = false;
     }
 
-    async componentDidMount() {
+    componentDidMount() {
+        this._isMounted = true;
+        this._isMounted && this.getGif();
+    }
+
+    componentWillUnmount() {
+         this._isMounted = false;
+    }
+
+    async getGif(){
         this.setState({ loading: true })
         const url = "http://api.giphy.com/v1/gifs/random?api_key=3ilsHOUsdjeOhMDrB8vwAQaRDtVPkym4&tag=think";
         const response = await fetch(url);
         const data = await response.json();
 
-        await this.setState({
+        this._isMounted && this.setState({
             images: data,
             loading: false
         })
@@ -98,7 +109,7 @@ class QuestionComponent extends React.Component {
             </div>
             )
         } else {
-            return <CategoryPickComponent/>
+            return <EndScreenComponent points={this.state.points}/>
         }
 
     }
